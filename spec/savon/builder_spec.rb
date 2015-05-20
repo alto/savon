@@ -83,10 +83,21 @@ describe Savon::Builder do
     end
 
     describe "#wsse_signature" do
-      let(:private_key) { "spec/fixtures/ssl/client_key.pem" }
-      let(:cert)        { "spec/fixtures/ssl/client_cert.pem" }
-      let(:signature)   { Akami::WSSE::Signature.new(Akami::WSSE::Certs.new(:cert_file => cert, :private_key_file => private_key))}
-      let(:globals)     { Savon::GlobalOptions.new(wsse_signature: signature) }
+      let(:private_key) do
+        File.join(File.dirname(__FILE__), "spec/fixtures/ssl/client_key.pem")
+      end
+      let(:cert) do
+        File.join(File.dirname(__FILE__), "spec/fixtures/ssl/client_cert.pem")
+      end
+      let(:signature) do
+        Akami::WSSE::Signature.new(
+          Akami::WSSE::Certs.new(
+            :cert_file => cert,
+            :private_key_file => private_key
+          )
+        )
+      end
+      let(:globals) { Savon::GlobalOptions.new(wsse_signature: signature) }
 
       subject(:signed_message_nn) {Nokogiri::XML(builder.to_s).remove_namespaces!}
       subject(:signed_message) {Nokogiri::XML(builder.to_s)}
