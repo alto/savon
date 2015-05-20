@@ -54,6 +54,7 @@ module Savon
       response ||= call_with_logging build_request(builder)
 
       raise_expected_httpi_response! unless response.kind_of?(HTTPI::Response)
+puts response.body
 
       create_response(response)
     end
@@ -91,6 +92,9 @@ module Savon
     end
 
     def call_with_logging(request)
+puts "----------- call_with_logging"
+puts request.inspect
+puts "----------- call_with_logging"
       @logger.log(request) { HTTPI.post(request, @globals[:adapter]) }
     end
 

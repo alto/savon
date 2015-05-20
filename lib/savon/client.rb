@@ -33,7 +33,16 @@ module Savon
     end
 
     def call(operation_name, locals = {}, &block)
-      operation(operation_name).call(locals, &block)
+      # operation(operation_name).call(locals, &block)
+puts "--------------------------- request start"
+puts "call(#{operation_name}, #{locals.inspect})"
+puts "--------------------------- request end"
+r = operation(operation_name).call(locals, &block)
+
+puts "--------------------------- response start"
+puts r.body.inspect
+puts "--------------------------- response end"
+r
     end
 
     def service_name
